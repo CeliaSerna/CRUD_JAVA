@@ -30,4 +30,36 @@ public class Alumno {
     public  void setCurso(String curso){
         this.curso=curso.substring(0,Math.min(2,curso.length()));
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public float getMedia() {
+        return media;
+    }
+
+    public void setMedia(float media) {
+        this.media = media;
+    }
+
+    public Date getfNacimiento() {
+        return fNacimiento;
+    }
+
+    public void setfNacimiento(Date fNacimiento) {
+        this.fNacimiento = fNacimiento;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
 }
