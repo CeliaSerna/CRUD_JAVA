@@ -1,5 +1,7 @@
 package com.cursoceat.modell;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.text.ParseException;
 public class Alumno {
 
     private int id;
@@ -15,12 +17,23 @@ public class Alumno {
 
     }
 
-    public Alumno(int id, String nombre, String curso, float media, Date fNacimiento) {
+    public Alumno(int id, String nombre, String curso, float media, String fNacimiento) throws ParseException{
         this.id = id;
-       setNombre(nombre);
+        setNombre(nombre);
         setCurso(curso);
         this.media = media;
-        this.fNacimiento = fNacimiento;
+        SimpleDateFormat f= new SimpleDateFormat("yyyy-MM-dd") ;
+        this.fNacimiento = f.parse(fNacimiento);
+
+    }
+    //este constructor lo utilizamos para crear un nuevo alumno porque
+    // la BBDD crea automaticamente el id
+    public Alumno(String nombre, String curso, float media, String fNacimiento) throws  ParseException{
+        setNombre(nombre);
+        setCurso(curso);
+        this.media = media;
+        SimpleDateFormat f= new SimpleDateFormat("yyyy-MM-dd") ;
+        this.fNacimiento = f.parse(fNacimiento);
     }
 
     public void setNombre(String nombre) {
