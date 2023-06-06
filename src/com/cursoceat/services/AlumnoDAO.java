@@ -4,6 +4,8 @@ import com.cursoceat.modell.Alumno;
 
 import java.sql.*;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 //la clase AlumnosDAO es una conversion donde se realizan una serie de metodos que van a
 //ser utilizados para acceder a la BBDD (listar, buscar, borrar, insertar...etc)
@@ -87,5 +89,72 @@ public class AlumnoDAO extends Conexion {
             pt.setInt(5,a.getId());
         }
         pt.executeUpdate();
+    }
+    public void delete(int id){
+        sql="DELETE FROM alumnos WHERE cod=?;";
+        try{
+            Connection con = conectar();
+            PreparedStatement pt= con.prepareStatement(sql);
+            pt.setInt(1,id);
+            pt.executeUpdate();
+            con.close();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public List<Alumno> readAll() throws ParseException{
+        List<Alumno> lista = new ArrayList<>();
+        sql="SELECT * FROM alumnos";
+        try{
+            Connection con = conectar();
+            PreparedStatement pt= con.prepareStatement(sql);
+            ResultSet rs= pt.executeQuery();
+            while (rs.next()){
+                String nombre = rs.getString("nombre");
+                int id = rs.getInt("cod");
+                String curso = rs.getString("curso");
+                float media= rs.getFloat("media");
+                String fNaci= rs.getString("fnaci");
+                Alumno a = new Alumno(id, nombre,curso,media,fNaci);
+                lista.add(a);
+
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return lista;
+    }
+    public List<Alumno>  read2(String curso) throws ParseException{
+        List<Alumno> lista = new ArrayList<>();
+
+        sql = "SELECT * FROM alumnos WHERE curso=?;";
+        try {
+            Connection con = conectar();
+            PreparedStatement pt = con.prepareStatement(sql);
+            pt.setString(1,curso);
+            ResultSet rs = pt.executeQuery();
+           while (rs.next()) {
+                String nombre = rs.getString("nombre");
+
+                Float media = rs.getFloat("media");
+                String fNaci = rs.getString("fnaci");
+                int id=rs.getInt("cod");
+
+               Alumno a = new Alumno(id,nombre, curso, media, fNaci);
+               lista.add(a);
+
+            }
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return lista;
     }
 }
